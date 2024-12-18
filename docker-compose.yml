@@ -1,0 +1,45 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      - POSTGRES_DB=mdbee
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_ENGINE=django.db.backends.postgresql_psycopg2
+      - POSTGRES_EXTENSIONS=pg_trgm
+    ports:
+        - "8002:5432"
+    networks:
+      - mdbee
+
+  api:
+    build: 
+      context: .
+      target: api
+      dockerfile: docker/Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./mdbeeapi:/code:delegated
+    ports:
+      - "9000:8000"
+    depends_on:
+      - postgres
+    networks:
+      - mdbee
+    env_file:
+      - keys.env
+  
+  web:
+    build:
+      context: .
+      target: frontend
+      dockerfile: docker/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./mdbee:/mdbee:delegated
+        
+networks:
+  mdbee:
+    name: mdbee
+    driver: bridge

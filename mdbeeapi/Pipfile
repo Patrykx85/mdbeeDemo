@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+pylint = "*"
+
+[packages]
+django = "4.2.6"
+django-configurations = "*"
+dj-database-url = "*"
+psycopg2-binary = "*"
+djangorestframework = "*"
+drf-pretty-exception-handler = "*"
+djangorestframework-camel-case = "*"
+djangorestframework-simplejwt = "*"
+boto3 = "*"
+ipython = "*"
+django-cors-headers = "*"
+django-rest-authemail =  "*"
+
+[requires]
+python_version = "3.11"
