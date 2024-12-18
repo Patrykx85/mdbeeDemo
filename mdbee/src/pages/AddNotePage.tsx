@@ -7,7 +7,7 @@ import {
   Group,
   TextInput,
   Title,
-  Text,
+  Textarea,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Note } from "../Interfaces";
@@ -74,14 +74,15 @@ const AddNote = () => {
           name="title"
           {...noteForm.getInputProps("title")}
         />
-        <TextInput
+        <Textarea
           label="Description"
           placeholder="Enter note description"
           mt="md"
           flex={1}
-          // {...packageForm.getInputProps("description")}
           {...noteForm.getInputProps("description")}
           name="description"
+          resize="vertical"
+          minRows={5}
         />
         <Group justify="center" mt="xl">
           <Button

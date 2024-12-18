@@ -1,24 +1,31 @@
 import {
   QueryClientProvider,
   keepPreviousData,
+  useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { modals } from "@mantine/modals";
-import { MRT_ColumnDef, MantineReactTable } from "mantine-react-table";
-import { useMemo, useState } from "react";
-// import packageService from "../services/package.service";
 import {
+  MRT_ColumnDef,
+  MRT_TableOptions,
+  MantineReactTable,
+} from "mantine-react-table";
+import { useMemo, useState } from "react";
+import {
+  ActionIcon,
   Box,
   Button,
-  Divider,
   Flex,
   LoadingOverlay,
   Text,
+  Title,
+  Tooltip,
 } from "@mantine/core";
 import { Note } from "../Interfaces";
 import noteService from "../services/note.service";
 import moment from "moment";
+import { IconEdit, IconTrash } from "@tabler/icons-react";
 
 const useNotes = () => {
   return useQuery({
@@ -38,18 +45,19 @@ const NotesPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
 
-  const openDeleteModal = (noteId: string) =>
+  const openDeleteModal = (note: Note) =>
     modals.openConfirmModal({
       title: "Delete note",
       centered: true,
       children: (
         <Text size="sm">
-          Are you sure you want to delete this note? This can't be undone.
+          Are you sure you want to delete note <b>{note.title}</b>? This can't
+          be undone.
         </Text>
       ),
       labels: { confirm: "Delete note", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      onConfirm: () => deleteNote(noteId),
+      onConfirm: () => deleteNote(note.id as string),
       lockScroll: true,
     });
 
@@ -77,6 +85,7 @@ const NotesPage = () => {
         {
           accessorKey: "id",
           header: "ID",
+          enableEditing: false,
         },
         {
           accessorKey: "created_at",
@@ -84,14 +93,54 @@ const NotesPage = () => {
           Cell: ({ cell }: any) => (
             <span>{moment(cell.getValue()).format("lll")}</span>
           ),
+          enableEditing: false,
         },
         {
           accessorKey: "title",
           header: "Title",
         },
+        {
+          accessorKey: "description",
+          header: "Description",
+          maxSize: 10,
+          enableColumnFilter: false,
+          Cell: ({ cell }: any) => (
+            <div style={{
+              maxWidth: '200px',
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}>
+              {cell.getValue()}
+            </div>
+          ),
+        },
       ] as MRT_ColumnDef<Note>[],
     [],
   );
+
+  const handleSaveNote: MRT_TableOptions<Note>["onEditingRowSave"] = async ({
+    values,
+    table,
+  }) => {
+    await updateNote(values);
+    table.setEditingRow(null); //exit editing mode
+  };
+
+  const useUpdateNote = () => {
+    return useMutation({
+      mutationFn: async (note: Note) => {
+        await noteService.updateNote(note.id as string, {
+          title: note.title,
+          description: note.description,
+        });
+      },
+    });
+  };
+
+  const { mutateAsync: updateNote, isPending: isUpdatingUser } =
+    useUpdateNote();
+
   return (
     <QueryClientProvider client={queryClient}>
       <LoadingOverlay
@@ -100,10 +149,29 @@ const NotesPage = () => {
         overlayProps={{ radius: "sm", blur: 2 }}
       />
       <MantineReactTable
+        renderRowActions={({ row, table }) => (
+          <Flex gap="md">
+            <Tooltip label="Edit">
+              <ActionIcon onClick={() => table.setEditingRow(row)}>
+                <IconEdit />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Delete">
+              <ActionIcon
+                color="red"
+                onClick={() => openDeleteModal(row.original)}
+              >
+                <IconTrash />
+              </ActionIcon>
+            </Tooltip>
+          </Flex>
+        )}
+        onEditingRowSave={handleSaveNote}
+        enableEditing={true}
+        editDisplayMode="modal"
         columns={columns}
         data={data ? data : []}
         enableExpandAll={false}
-        // #E9ECEF
         mantineDetailPanelProps={{ bg: "#F1F3F5" }}
         renderDetailPanel={({ row }) => (
           <Box>
@@ -111,10 +179,13 @@ const NotesPage = () => {
               style={{
                 display: "grid",
                 margin: "auto",
-                gridTemplateColumns: "1fr 1fr 1fr",
+                gridTemplateColumns: "1fr",
                 width: "100%",
               }}
             >
+              <Title order={1} c={"#000"} size={"h5"}>
+                Note description
+              </Title>
               <Text>{row.original.description}</Text>
             </Box>
             <Flex align={"center"} justify={"center"} gap={5} mt={10}>
@@ -127,7 +198,7 @@ const NotesPage = () => {
               >
                 Edit Note
               </Button>
-              <Button
+              {/* <Button
                 onClick={() => openDeleteModal(row.original.id as string)}
                 style={{}}
                 bg={"#FF0000"}
@@ -135,22 +206,6 @@ const NotesPage = () => {
                 loaderProps={{ type: "dots" }}
               >
                 Delete Note
-              </Button>
-              {/* <Button
-                onClick={() => printBase64PDF(row.original.label)}
-                style={{}}
-                bg={"#FF0000"}
-                disabled={row.original.status === "canceled"}
-              >
-                Print label
-              </Button> */}
-              {/* <Button
-                style={{}}
-                bg={"#FF0000"}
-                disabled={row.original.status === "canceled"}
-                onClick={() => window.open(`https://www.fedex.com/wtrk/track/?action=track&tracknumbers=${row.original.number}&locale=en_US&cntry_code=us`, "_blank")}
-              >
-                Track package
               </Button> */}
             </Flex>
           </Box>

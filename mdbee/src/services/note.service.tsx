@@ -21,7 +21,7 @@ class NoteService {
     });
   }
   updateNote(id: string, noteData: Note) {
-    return apiAuth.patch(API_URL + `api/notes/${id}/`, {
+    return apiAuth.patch(API_URL + `api/notes/${id}/`, noteData, {
       headers: authHeader(),
     });
   }
