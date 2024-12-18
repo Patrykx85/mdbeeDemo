@@ -1,5 +1,14 @@
 import { useState } from "react";
-import { Box, Button, Divider, Flex, Group, TextInput, Title, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  Group,
+  TextInput,
+  Title,
+  Text,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Note } from "../Interfaces";
 import { modals } from "@mantine/modals";
@@ -11,7 +20,7 @@ const AddNote = () => {
   const noteForm = useForm({
     initialValues: {
       title: "",
-      description: ""
+      description: "",
     },
   });
 
@@ -21,32 +30,29 @@ const AddNote = () => {
       const response = await noteService.addNote(values);
       openModal();
       noteForm.reset();
+    } catch {
+      noteForm.setFieldError("title", "Unable to add note");
+    } finally {
+      setIsAdding(false);
     }
-    catch {
-      noteForm.setFieldError("title", "Unable to add note")
-    }
-    finally {
-      setIsAdding(false)
-    }
-  }
+  };
 
   const finishAdd = () => {
     noteForm.reset();
-    modals.closeAll()
-  }
+    modals.closeAll();
+  };
 
-  const openModal = () => modals.open({
-    title: 'New note added',
-    children: (
-      <>
-        <Button fullWidth onClick={finishAdd} mt="md">
-          OK
-        </Button>
-      </>
-    ),
-  });
-
-
+  const openModal = () =>
+    modals.open({
+      title: "New note added",
+      children: (
+        <>
+          <Button fullWidth onClick={finishAdd} mt="md">
+            OK
+          </Button>
+        </>
+      ),
+    });
 
   return (
     <Box

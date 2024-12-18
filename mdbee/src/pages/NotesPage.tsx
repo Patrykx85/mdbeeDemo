@@ -35,7 +35,42 @@ const useNotes = () => {
 
 const NotesPage = () => {
   const { status, data, error, isFetching, refetch } = useNotes();
-  const [isLoading, setIsLoading] = useState(false);const queryClient = useQueryClient();
+  const [isLoading, setIsLoading] = useState(false);
+  const queryClient = useQueryClient();
+
+  const openDeleteModal = (noteId: string) =>
+    modals.openConfirmModal({
+      title: "Delete note",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete this note? This can't be undone.
+        </Text>
+      ),
+      labels: { confirm: "Delete note", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => deleteNote(noteId),
+      lockScroll: true,
+    });
+
+  const openEditModal = (note: Note) =>
+    modals.open({
+      title: "Subscribe to newsletter",
+      children: <></>,
+    });
+
+  const deleteNote = async (noteId: string) => {
+    setIsLoading(true);
+    try {
+      const response = await noteService.deleteNote(noteId);
+      refetch();
+    } catch (_error: any) {
+      console.log(_error.response);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const columns = useMemo(
     () =>
       [
@@ -59,13 +94,17 @@ const NotesPage = () => {
   );
   return (
     <QueryClientProvider client={queryClient}>
-      <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: "sm", blur: 2 }} />
+      <LoadingOverlay
+        visible={isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <MantineReactTable
         columns={columns}
         data={data ? data : []}
         enableExpandAll={false}
         // #E9ECEF
-        mantineDetailPanelProps={{bg:"#F1F3F5"}}
+        mantineDetailPanelProps={{ bg: "#F1F3F5" }}
         renderDetailPanel={({ row }) => (
           <Box>
             <Box
@@ -78,12 +117,25 @@ const NotesPage = () => {
             >
               <Text>{row.original.description}</Text>
             </Box>
-            <Flex
-              align={"center"}
-              justify={"center"}
-              gap={5}
-              mt={10}
-            >
+            <Flex align={"center"} justify={"center"} gap={5} mt={10}>
+              <Button
+                onClick={() => openEditModal(row.original)}
+                style={{}}
+                bg={"#FF0000"}
+                loading={isLoading}
+                loaderProps={{ type: "dots" }}
+              >
+                Edit Note
+              </Button>
+              <Button
+                onClick={() => openDeleteModal(row.original.id as string)}
+                style={{}}
+                bg={"#FF0000"}
+                loading={isLoading}
+                loaderProps={{ type: "dots" }}
+              >
+                Delete Note
+              </Button>
               {/* <Button
                 onClick={() => printBase64PDF(row.original.label)}
                 style={{}}
@@ -91,18 +143,8 @@ const NotesPage = () => {
                 disabled={row.original.status === "canceled"}
               >
                 Print label
-              </Button>
-              <Button
-                onClick={() => openCancelModal(row.original.id as string)}
-                style={{}}
-                bg={"#FF0000"}
-                disabled={row.original.status !== "new"}
-                loading={isCanceling}
-                loaderProps={{ type: 'dots' }}
-              >
-                Cancel package
-              </Button>
-              <Button
+              </Button> */}
+              {/* <Button
                 style={{}}
                 bg={"#FF0000"}
                 disabled={row.original.status === "canceled"}
@@ -113,9 +155,7 @@ const NotesPage = () => {
             </Flex>
           </Box>
         )}
-
         positionGlobalFilter="right"
-
       />
     </QueryClientProvider>
   );
