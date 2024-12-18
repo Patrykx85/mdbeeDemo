@@ -43,7 +43,7 @@ instance.interceptors.response.use(
       originalConfig._retry = true;
 
       try {
-        const response = await instanceForRefresh.post("token/refresh/", {
+        const response = await instanceForRefresh.post("api/token/refresh/", {
           refresh: getLocalRefreshToken(),
         });
 

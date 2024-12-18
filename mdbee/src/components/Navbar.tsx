@@ -12,8 +12,7 @@ const Navbar = () => {
   return (
     <AppShell.Navbar p="md" style={stylingObject.navbar}>
       <NavLink label="Add Note" onClick={() => navigate("/add")} />
-      <NavLink label="All Notes" onClick={() => navigate("/packages")} />
-
+      <NavLink label="All Notes" onClick={() => navigate("/notes")} />
       <Divider my="md" />
       <NavLink label="Log out" onClick={logout} />
     </AppShell.Navbar>
