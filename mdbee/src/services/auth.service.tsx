@@ -18,7 +18,6 @@ class Auth {
       email,
       password,
     });
-    console.log(response);
     if (response.data.access) {
       setUser(response.data);
     }

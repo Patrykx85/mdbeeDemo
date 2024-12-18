@@ -1594,7 +1594,7 @@
   resolved "https://registry.yarnpkg.com/@mantine/hooks/-/hooks-7.15.1.tgz#3df618258c4cff6b1adab25eaa1f7a1816ec1395"
   integrity sha512-jrpjA5JhVSgUi0expfZpvNplMgvwdvrCIcKiDjQ16p/KiWngvTVfmJMtBOVxQ6hWrn500nLmZIDEcTmV9Dvb7g==
 
-"@mantine/modals@^7.12.1":
+"@mantine/modals@^7.15.1":
   version "7.15.1"
   resolved "https://registry.yarnpkg.com/@mantine/modals/-/modals-7.15.1.tgz#244e84b3a6f4c5b61c00a00929e5c724ccbdbd88"
   integrity sha512-mKlnzkwqOHO1laeVfILbcPLITF2qRwKbf/aF3GZhHiJVTX0aSEQ5IBL7dBQHhETLsfNp/GLzmOHKyw3zdNUS5g==

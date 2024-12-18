@@ -21,9 +21,12 @@ from rest_framework_simplejwt.views import (
 )
 from rest_framework.routers import DefaultRouter
 from users.views import UserViewSet
+from notes.views import NoteViewSet
 
 router = DefaultRouter()
 router.register(r"users", UserViewSet)
+router.register(r"notes", NoteViewSet, basename="notes")
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/token/", TokenObtainPairView.as_view(), name="token_obtain_pair"),

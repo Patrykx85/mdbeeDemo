@@ -36,6 +36,7 @@ class Common(Configuration):
         "corsheaders",
         "rest_framework_simplejwt",
         "users",
+        "notes",
     ]
 
     MIDDLEWARE = [
