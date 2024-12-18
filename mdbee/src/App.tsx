@@ -23,10 +23,10 @@ function App() {
     }
   }, []);
   const RequireAuth: FC<{ children: React.ReactElement }> = ({ children }) => {
-    console.log("0xxxxxxxxxxxxxxxxxxxx")
+    console.log("0xxxxxxxxxxxxxxxxxxxx");
     if (!isLogged) {
-      console.log('1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-      return <Navigate to={"/login"}/>
+      console.log("1xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      return <Navigate to={"/login"} />;
       // return <LoginPage />;
     }
     return children;

@@ -4,11 +4,18 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { modals } from '@mantine/modals';
+import { modals } from "@mantine/modals";
 import { MRT_ColumnDef, MantineReactTable } from "mantine-react-table";
 import { useMemo, useState } from "react";
 // import packageService from "../services/package.service";
-import { Box, Button, Divider, Flex, LoadingOverlay, Text } from "@mantine/core";
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  LoadingOverlay,
+  Text,
+} from "@mantine/core";
 import { Note } from "../Interfaces";
 
 // const usePackages = () => {
@@ -25,8 +32,6 @@ import { Note } from "../Interfaces";
 // };
 
 const NotesPage = () => {
- 
-
   return (
     <></>
     // <QueryClientProvider client={queryClient}>
@@ -144,7 +149,7 @@ const NotesPage = () => {
     //         </Box>
     //       </Box>
     //     )}
-        
+
     //     positionGlobalFilter="right"
 
     //   /> */}

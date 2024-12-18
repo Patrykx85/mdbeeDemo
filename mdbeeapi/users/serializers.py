@@ -17,9 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         )
         # Ensure that the password is not being returned in responses
         extra_kwargs = {"password": {"write_only": True}}
-        read_only_fields = (
-            "id",
-        )
+        read_only_fields = ("id",)
 
     email = serializers.EmailField()
 

@@ -1,18 +1,9 @@
-import {
-  Flex,
-  Burger,
-  Button,
-  AppShell,
-  Text,
-} from "@mantine/core";
+import { Flex, Burger, Button, AppShell, Text } from "@mantine/core";
 import AuthService from "../services/auth.service";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const Header = ({ toggle, opened }: any) => {
-
-
-
   return (
     <AppShell.Header bg="#FF0000">
       <Flex

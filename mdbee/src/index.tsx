@@ -1,9 +1,15 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import { MantineProvider, createTheme, useMantineTheme, Stepper, rem } from "@mantine/core";
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import {
+  MantineProvider,
+  createTheme,
+  useMantineTheme,
+  Stepper,
+  rem,
+} from "@mantine/core";
+import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import "@mantine/core/styles.css";
 // import 'mantine-react-table/styles.css'; //import MRT styles
@@ -13,7 +19,7 @@ const theme = createTheme({
   primaryColor: "red",
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root')!);
+const root = ReactDOM.createRoot(document.getElementById("root")!);
 root.render(
   <React.StrictMode>
     <MantineProvider theme={theme} defaultColorScheme="light">

@@ -68,16 +68,13 @@ class Common(Configuration):
                     "django.contrib.auth.context_processors.auth",
                     "django.contrib.messages.context_processors.messages",
                 ],
-            }, 
+            },
         },
     ]
 
     WSGI_APPLICATION = "mdbeeapi.wsgi.application"
 
-    AUTH_USER_MODEL = 'users.User'
-
-
-
+    AUTH_USER_MODEL = "users.User"
 
     # Password validation
     # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
@@ -97,7 +94,6 @@ class Common(Configuration):
         },
     ]
 
-
     # Internationalization
     # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
@@ -109,7 +105,6 @@ class Common(Configuration):
 
     USE_TZ = True
 
-
     # Static files (CSS, JavaScript, Images)
     # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
@@ -120,10 +115,9 @@ class Common(Configuration):
 
     DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
     REST_FRAMEWORK = {
-        'DEFAULT_AUTHENTICATION_CLASSES': (
-            'rest_framework_simplejwt.authentication.JWTAuthentication',
+        "DEFAULT_AUTHENTICATION_CLASSES": (
+            "rest_framework_simplejwt.authentication.JWTAuthentication",
         )
     }
 

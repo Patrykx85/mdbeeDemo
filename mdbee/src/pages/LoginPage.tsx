@@ -32,16 +32,15 @@ export default function LoginPage(props: PaperProps) {
   });
 
   const login = (values: any) => {
-    console.log('444xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+    console.log("444xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
     AuthService.login(values.email, values.password).then(
       () => {
-        console.log('333xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+        console.log("333xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
         navigate("/");
       },
       (error) => {
-
-        console.log('5555xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
-        console.log(error.message)
+        console.log("5555xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+        console.log(error.message);
         const resMessage =
           (error.response &&
             error.response.data &&
@@ -53,9 +52,8 @@ export default function LoginPage(props: PaperProps) {
   };
 
   const goToRegister = () => {
-    navigate("/register")
-  }
-
+    navigate("/register");
+  };
 
   return (
     <div

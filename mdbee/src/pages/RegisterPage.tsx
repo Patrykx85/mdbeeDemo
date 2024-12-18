@@ -29,7 +29,7 @@ export default function RegisterPage(props: PaperProps) {
           ? "Password should include at least 8 characters"
           : null,
       confirmPassword: (value, values) =>
-        value !== values.password ? 'Passwords did not match' : null,
+        value !== values.password ? "Passwords did not match" : null,
     },
   });
 
@@ -37,12 +37,12 @@ export default function RegisterPage(props: PaperProps) {
     AuthService.register(values.email, values.password).then(
       () => {
         // TODO add modal with in "you can now login"
-        console.log("11xxxxxxxxxxxxxxxxxx")
+        console.log("11xxxxxxxxxxxxxxxxxx");
         navigate("/login");
       },
       (error) => {
-        console.log("22xxxxxxxxxxxxxxxxxx")
-        console.log(error.message)
+        console.log("22xxxxxxxxxxxxxxxxxx");
+        console.log(error.message);
         const resMessage =
           (error.response &&
             error.response.data &&
@@ -52,7 +52,6 @@ export default function RegisterPage(props: PaperProps) {
       },
     );
   };
-
 
   return (
     <div
@@ -113,11 +112,12 @@ export default function RegisterPage(props: PaperProps) {
                 placeholder="Confirm your password"
                 value={form.values.confirmPassword}
                 onChange={(event) =>
-                  form.setFieldValue("confirmPassword", event.currentTarget.value)
+                  form.setFieldValue(
+                    "confirmPassword",
+                    event.currentTarget.value,
+                  )
                 }
-                error={
-                  form.errors.confirmPassword
-                }
+                error={form.errors.confirmPassword}
                 radius="md"
               />
             </Stack>

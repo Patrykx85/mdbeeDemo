@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from users.serializers import UserSerializer
 from users.models import User
 
+
 class UserViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet,
@@ -22,7 +23,9 @@ class UserViewSet(
             email = serializer.validated_data["email"]
             try:
                 user = User.objects.get(email=email)
-                raise exceptions.ValidationError({"email": "Email address already taken."})
+                raise exceptions.ValidationError(
+                    {"email": "Email address already taken."}
+                )
 
             except User.DoesNotExist:
                 user = serializer.save()

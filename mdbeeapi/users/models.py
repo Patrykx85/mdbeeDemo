@@ -49,18 +49,26 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
     email = models.EmailField(unique=True)
     is_staff = models.BooleanField(
-        _('staff status'), default=False,
-        help_text=_('Designates whether the user can log into this '
-                    'admin site.'))
+        _("staff status"),
+        default=False,
+        help_text=_("Designates whether the user can log into this " "admin site."),
+    )
     is_active = models.BooleanField(
-        _('active'), default=True,
-        help_text=_('Designates whether this user should be treated as '
-                    'active.  Unselect this instead of deleting accounts.'))
+        _("active"),
+        default=True,
+        help_text=_(
+            "Designates whether this user should be treated as "
+            "active.  Unselect this instead of deleting accounts."
+        ),
+    )
     is_verified = models.BooleanField(
-        _('verified'), default=False,
-        help_text=_('Designates whether this user has completed the email '
-                    'verification process to allow login.'))
-
+        _("verified"),
+        default=False,
+        help_text=_(
+            "Designates whether this user has completed the email "
+            "verification process to allow login."
+        ),
+    )
 
     def __str__(self):
         return self.email
