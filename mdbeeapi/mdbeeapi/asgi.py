@@ -11,7 +11,7 @@ import os
 
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mdbeeapi.settings")
-os.environ.setdefault("DJANGO_CONFIGURATION", "Dev")
+# os.environ.setdefault("DJANGO_CONFIGURATION", "Dev")
 
 from configurations.asgi import get_asgi_application
 

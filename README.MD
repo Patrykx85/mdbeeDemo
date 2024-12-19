@@ -97,6 +97,22 @@ Once a voice note is saved to the server, it will appear in the list of voice no
 
 The audio player will allow the user to control playback (play, pause, seek, etc.) of the voice note.
 
+### Step 10: Running Automated Tests
+
+To run the automated tests for the application, follow these steps:
+
+1. **Log in to the API container**:
+   First, enter the API container using the following command:
+
+docker-compose exec api /bin/bash
+
+2. **Run the tests**:
+Once inside the container, run the following command to execute the automated tests:
+
+python manage.py test
+
+This will run all the automated tests defined in the Django project, ensuring that everything is working as expected.
+
 ## Technologies Used:
 - **Frontend**: React.js
 - **Backend**: Django + Django Rest Framework

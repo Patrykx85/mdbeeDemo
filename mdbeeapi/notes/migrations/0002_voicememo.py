@@ -6,18 +6,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('notes', '0001_initial'),
+        ("notes", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='VoiceMemo',
+            name="VoiceMemo",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('file', models.FileField(blank=True, null=True, upload_to='')),
-                ('note', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notes.note')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("file", models.FileField(blank=True, null=True, upload_to="")),
+                (
+                    "note",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="notes.note"
+                    ),
+                ),
             ],
         ),
     ]

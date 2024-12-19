@@ -120,6 +120,7 @@ class Common(Configuration):
     REST_FRAMEWORK = {
         "DEFAULT_AUTHENTICATION_CLASSES": (
             "rest_framework_simplejwt.authentication.JWTAuthentication",
+            "rest_framework.authentication.SessionAuthentication",
         )
     }
 
@@ -156,3 +157,20 @@ class Dev(Common):
     # }
 
     DATABASES = values.DatabaseURLValue("postgres://postgres:postgres@postgres/mdbee")
+
+
+class Testing(Common):
+    """
+    Settings used when running tests inside a docker
+    """
+
+    REST_FRAMEWORK = {
+        "DEFAULT_AUTHENTICATION_CLASSES": (
+            "rest_framework.authentication.TokenAuthentication",
+            "rest_framework.authentication.SessionAuthentication",
+        ),
+    }
+
+    DATABASES = values.DatabaseURLValue(
+        "postgis://postgres:postgres@postgres/mdbee-test"
+    )

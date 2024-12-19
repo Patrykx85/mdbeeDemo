@@ -5,20 +5,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('notes', '0002_voicememo'),
+        ("notes", "0002_voicememo"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='voicememo',
-            name='file',
+            model_name="voicememo",
+            name="file",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AlterField(
-            model_name='voicememo',
-            name='note',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='voicememos', to='notes.note'),
+            model_name="voicememo",
+            name="note",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="voicememos",
+                to="notes.note",
+            ),
         ),
     ]

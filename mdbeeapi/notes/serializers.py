@@ -1,9 +1,10 @@
 from rest_framework import serializers, validators
 from notes.models import Note, VoiceMemo
 
+
 class NoteSerializer(serializers.ModelSerializer):
     """
-    Serializer responsible for serializing and deserializing user accounts.
+    Serializer responsible for serializing and deserializing notes.
     """
 
     class Meta:
@@ -16,14 +17,21 @@ class NoteSerializer(serializers.ModelSerializer):
             "owner",
             "voice_memos",
         )
-    
+
     voice_memos = serializers.SerializerMethodField()
 
     def get_voice_memos(self, instance: Note):
+        """
+        Get id's of all this note voice memos
+        """
         return [voicememo.id for voicememo in instance.voicememos.all()]
 
 
 class VoiceMemoSerializer(serializers.ModelSerializer):
+    """
+    Serializer responsible for serializing and deserializing voice memos.
+    """
+
     class Meta:
         model = VoiceMemo
         fields = ["id", "file", "note"]
