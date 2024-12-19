@@ -33,6 +33,7 @@ const VoiceNote = ({ id }: { id: string }) => {
         loading={isDownloading}
         disabled={fileDownloaded}
         loaderProps={{ type: "dots" }}
+        mr={5}
       >
         Download voice note
       </Button>

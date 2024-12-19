@@ -1,13 +1,14 @@
-import { Box, Button, Text } from "@mantine/core";
+import { Box, Button, Text, Flex } from "@mantine/core";
 import { Note } from "../Interfaces";
 import { useState, useRef, useEffect } from "react";
 import { useReactMediaRecorder } from "react-media-recorder";
 import noteService from "../services/note.service";
+import { modals } from "@mantine/modals";
 
-const VoiceNoteRecorder = ({ note }: { note: Note }) => {
-  const [isRecording, setIsRecording] = useState(false);
+const VoiceNoteRecorder = ({ note, refetch }: { note: Note, refetch: any }) => {
+  const [isUploading, setIsUploading] = useState(false);
   const [voiceBlob, setVoiceBlob] = useState<Blob | null>(null);
-  const myRef = useRef<HTMLInputElement>(null);
+  const boxRef = useRef<HTMLInputElement>(null);
 
   const onStop = (blobUrl: string, blob: Blob) => {
     setVoiceBlob(blob);
@@ -21,59 +22,86 @@ const VoiceNoteRecorder = ({ note }: { note: Note }) => {
       audio.src = mediaBlobUrl as string;
 
       audio.controls = true;
-      if (myRef?.current) {
-        myRef.current.appendChild(audio);
+      if (boxRef?.current) {
+        boxRef.current.appendChild(audio);
       }
     }
   }, [mediaBlobUrl]);
 
   const uploadToServer = () => {
-    if (voiceBlob) {
-      const fileName = `test.wav`;
-      let file = new File([voiceBlob], fileName);
-      const formData = new FormData();
-      formData.append("voiceMemo", file);
-      noteService.uploadVoiceNote(note.id as string, formData);
+    setIsUploading(true);
+    try {
+      if (voiceBlob) {
+        const fileName = `test.wav`;
+        let file = new File([voiceBlob], fileName);
+        const formData = new FormData();
+        formData.append("voiceMemo", file);
+        noteService.uploadVoiceNote(note.id as string, formData);
+        refetch();
+        modals.closeAll();
+      }
+    }
+    catch {
+      console.log("Problem with upload data")
+    }
+    finally {
+      setIsUploading(false);
     }
   };
 
   return (
-    <Box ref={myRef}>
-      <Text>{isRecording ? "yyy" : "no"}</Text>
-      <p>{status}</p>
-      <p>{mediaBlobUrl}</p>
-      <audio src={mediaBlobUrl} />
+    <Flex 
+      ref={boxRef}
+      mih={50}
+      gap="md"
+      justify="center"
+      align="flex-start"
+      direction="column"
+      wrap="wrap"
+    >
       <Button
         onClick={startRecording}
         style={{}}
         bg={"#FF0000"}
-        loading={status !== "idle"}
+        loading={status === "recording"}
+        disabled={status !== "idle"}
         loaderProps={{ type: "dots" }}
+        w={190}
       >
-        Start recording {isRecording}
+        Start recording
       </Button>
       <Button
         onClick={stopRecording}
         style={{}}
-        bg={"#FF0000"}
+        bg={"green"}
+        // c={"#000"}
         // loading={isRecording}
         disabled={status !== "recording"}
         loaderProps={{ type: "dots" }}
+        w={190}
       >
         Stop recording
       </Button>
       <Button
         onClick={uploadToServer}
         style={{}}
-        bg={"#FF0000"}
-        // loading={isRecording}
+        bg={"blue"}
+        loading={isUploading}
         disabled={status !== "stopped"}
         loaderProps={{ type: "dots" }}
+        w={190}
       >
         Save this recording
       </Button>
-    </Box>
+      <audio src={mediaBlobUrl} />
+    </Flex>
   );
 };
 
 export default VoiceNoteRecorder;
+
+const stylingObject = {
+  boxStyle: {
+
+  },
+};

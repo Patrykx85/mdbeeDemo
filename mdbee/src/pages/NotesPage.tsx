@@ -66,7 +66,7 @@ const NotesPage = () => {
   const openEditModal = (note: Note) =>
     modals.open({
       title: "Record Voice Note",
-      children: <VoiceNoteRecorder note={note} />,
+      children: <VoiceNoteRecorder note={note} refetch={refetch} />,
     });
 
   const deleteNote = async (noteId: string) => {
@@ -203,7 +203,9 @@ const NotesPage = () => {
                 Record New Voice Note
               </Button>
             </Flex>
-            {row.original.voice_memos?.map((id) => <VoiceNote id={id} />)}
+            <Flex align={"left"} justify={"center"} gap={10} mt={10} direction={"column"}>
+              {row.original.voice_memos?.map((id) => <VoiceNote id={id} />)}
+            </Flex>
           </Box>
         )}
         positionGlobalFilter="right"
