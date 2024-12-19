@@ -14,4 +14,4 @@ class Note(models.Model):
 class VoiceMemo(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     note = models.ForeignKey(Note, related_name="voicememos", on_delete=models.CASCADE)
-    file = models.FileField(null=True, blank=True, validators=[])
+    file = models.TextField(blank=True, null=True)

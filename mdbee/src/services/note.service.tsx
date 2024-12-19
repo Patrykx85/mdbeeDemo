@@ -1,4 +1,4 @@
-import { Note } from "../Interfaces";
+import { Note, VoiceMemo } from "../Interfaces";
 import apiAuth from "./apiAuth";
 import authHeader from "./auth-header";
 
@@ -42,7 +42,7 @@ class NoteService {
     });
   }
   downloadVoiceNote(id: string) {
-    return apiAuth.get<string>(API_URL + `api/voicememos/${id}/`, {
+    return apiAuth.get<VoiceMemo>(API_URL + `api/voicememos/${id}/`, {
       headers: authHeader(),
     });
   }
