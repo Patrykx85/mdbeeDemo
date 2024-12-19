@@ -74,8 +74,6 @@ const VoiceNoteRecorder = ({ note, refetch }: { note: Note, refetch: any }) => {
         onClick={stopRecording}
         style={{}}
         bg={"green"}
-        // c={"#000"}
-        // loading={isRecording}
         disabled={status !== "recording"}
         loaderProps={{ type: "dots" }}
         w={190}
