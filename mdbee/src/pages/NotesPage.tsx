@@ -26,6 +26,8 @@ import { Note } from "../Interfaces";
 import noteService from "../services/note.service";
 import moment from "moment";
 import { IconEdit, IconTrash } from "@tabler/icons-react";
+import VoiceNoteRecorder from "../components/VoiceNoteRecorder";
+import VoiceNote from "../components/VoiceNote";
 
 const useNotes = () => {
   return useQuery({
@@ -63,8 +65,8 @@ const NotesPage = () => {
 
   const openEditModal = (note: Note) =>
     modals.open({
-      title: "Subscribe to newsletter",
-      children: <></>,
+      title: "Record Voice Note",
+      children: <VoiceNoteRecorder note={note} />,
     });
 
   const deleteNote = async (noteId: string) => {
@@ -105,12 +107,14 @@ const NotesPage = () => {
           maxSize: 10,
           enableColumnFilter: false,
           Cell: ({ cell }: any) => (
-            <div style={{
-              maxWidth: '200px',
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}>
+            <div
+              style={{
+                maxWidth: "200px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {cell.getValue()}
             </div>
           ),
@@ -196,18 +200,10 @@ const NotesPage = () => {
                 loading={isLoading}
                 loaderProps={{ type: "dots" }}
               >
-                Edit Note
+                Record New Voice Note
               </Button>
-              {/* <Button
-                onClick={() => openDeleteModal(row.original.id as string)}
-                style={{}}
-                bg={"#FF0000"}
-                loading={isLoading}
-                loaderProps={{ type: "dots" }}
-              >
-                Delete Note
-              </Button> */}
             </Flex>
+            {row.original.voice_memos?.map((id) => <VoiceNote id={id} />)}
           </Box>
         )}
         positionGlobalFilter="right"

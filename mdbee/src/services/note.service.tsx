@@ -30,6 +30,22 @@ class NoteService {
       headers: authHeader(),
     });
   }
+  uploadVoiceNote(id: string, formData: any) {
+    const headerWithAuth = authHeader().Authorization;
+    const headerWithContent = {
+      Authorization: authHeader().Authorization,
+      "Content-Type": `multipart/form-data`,
+    };
+
+    return apiAuth.post(API_URL + `api/notes/${id}/voice/`, formData, {
+      headers: headerWithContent,
+    });
+  }
+  downloadVoiceNote(id: string) {
+    return apiAuth.get<string>(API_URL + `api/voicememos/${id}/`, {
+      headers: authHeader(),
+    });
+  }
 }
 
 export default new NoteService();

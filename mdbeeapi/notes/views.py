@@ -1,9 +1,12 @@
-from rest_framework import viewsets, mixins, status, filters
+import base64
+from django.db import transaction
+from rest_framework import viewsets, mixins, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from notes.models import Note
-from notes.serializers import NoteSerializer
+from rest_framework.decorators import action
+from notes.models import Note, VoiceMemo
+from notes.serializers import NoteSerializer, VoiceMemoSerializer
 
 class NoteViewSet(
     mixins.CreateModelMixin,
@@ -33,3 +36,40 @@ class NoteViewSet(
             )
         else:
             raise ValidationError(serializer.errors)
+        
+    @action(methods=["post"], detail=True, url_path="voice")
+    def voice(self, request, pk):
+        note = self.get_object()
+        if "voiceMemo" not in request.data:
+            raise ValidationError("There is no file in the HTTP body.")
+
+        with transaction.atomic():
+            vm = VoiceMemo.objects.create(
+                note=note
+            )
+            file = request.data["voiceMemo"]
+            vm.file.save(file.name, file)
+            vm.save()    
+        return Response(
+            status=status.HTTP_201_CREATED
+        )
+
+class VoiceMemoViewSet(
+    mixins.RetrieveModelMixin,
+    viewsets.GenericViewSet):
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = VoiceMemoSerializer
+
+    def get_queryset(self):
+        return VoiceMemo.objects.filter(
+            note__owner=self.request.user
+        )
+    
+    def retrieve(self, request, pk):
+        instance:VoiceMemo = self.get_object()
+        file_handle = instance.file.read()
+        base64_encoded_data = base64.b64encode(file_handle)
+        base64_message = base64_encoded_data.decode('utf-8')
+        response = Response(f'data:audio/wav;base64,{base64_message}', status=status.HTTP_200_OK)
+        return response

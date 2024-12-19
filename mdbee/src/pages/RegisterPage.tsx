@@ -37,11 +37,9 @@ export default function RegisterPage(props: PaperProps) {
     AuthService.register(values.email, values.password).then(
       () => {
         // TODO add modal with in "you can now login"
-        console.log("11xxxxxxxxxxxxxxxxxx");
         navigate("/login");
       },
       (error) => {
-        console.log("22xxxxxxxxxxxxxxxxxx");
         console.log(error.message);
         const resMessage =
           (error.response &&

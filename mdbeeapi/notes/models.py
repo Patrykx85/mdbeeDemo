@@ -9,3 +9,9 @@ class Note(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.TextField()
     description = models.TextField()
+
+
+class VoiceMemo(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    note = models.ForeignKey(Note, related_name="voicememos", on_delete=models.CASCADE)
+    file = models.FileField(null=True, blank=True, validators=[])

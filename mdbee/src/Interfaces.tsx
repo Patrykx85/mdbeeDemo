@@ -3,4 +3,5 @@ export interface Note {
   title: string;
   description: string;
   created_at?: string;
+  voice_memos?: string[];
 }
