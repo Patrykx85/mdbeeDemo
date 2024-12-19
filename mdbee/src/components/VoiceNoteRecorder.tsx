@@ -28,7 +28,7 @@ const VoiceNoteRecorder = ({ note, refetch }: { note: Note, refetch: any }) => {
     }
   }, [mediaBlobUrl]);
 
-  const uploadToServer = () => {
+  const uploadToServer = async () => {
     setIsUploading(true);
     try {
       if (voiceBlob) {
@@ -36,8 +36,8 @@ const VoiceNoteRecorder = ({ note, refetch }: { note: Note, refetch: any }) => {
         let file = new File([voiceBlob], fileName);
         const formData = new FormData();
         formData.append("voiceMemo", file);
-        noteService.uploadVoiceNote(note.id as string, formData);
-        refetch();
+        await noteService.uploadVoiceNote(note.id as string, formData);
+        await refetch();
         modals.closeAll();
       }
     }
