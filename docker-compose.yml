@@ -12,6 +12,21 @@ services:
     networks:
       - mdbee
 
+  api_migrations:
+    build: 
+      context: .
+      target: api
+      dockerfile: docker/Dockerfile
+    command: python manage.py migrate
+    volumes:
+      - ./mdbeeapi:/code:delegated
+    depends_on:
+      - postgres
+    networks:
+      - mdbee
+    env_file:
+      - keys.env
+
   api:
     build: 
       context: .

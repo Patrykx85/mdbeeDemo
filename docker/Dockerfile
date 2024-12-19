@@ -33,9 +33,7 @@ RUN pipenv install  --system --deploy --ignore-pipfile
 COPY mdbeeapi /code/
 
 # Set the default command to run when the container starts
-# CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
-CMD python manage.py migrate && python manage.py collectstatic --no-input && /etc/init.d/cron start && run-program gunicorn mdbeeapi.wsgi:application --bind 0.0.0.0:8000
-
+CMD python manage.py migrate && python manage.py runserver 0.0.0.0:8000
 
 
 FROM node:21-bookworm-slim as frontend
